@@ -123,6 +123,14 @@ class ExerciseDetailViewModel @Inject constructor(
     }
 
     private fun sendExerciseStateToConnectedDevices(update: ExerciseUpdate) {
+        val exerciseName = update.exerciseConfig?.exerciseType?.name
+        exerciseName?.also { name ->
+            wearableMessageManager.sendData(
+                label = "name",
+                data = textManager.capitalizeNoUnderscores(name).toByteArray()
+            )
+        }
+
         val exerciseEnded = update.exerciseStateInfo.state.isEnded
         wearableMessageManager.sendData(
             "ended",
