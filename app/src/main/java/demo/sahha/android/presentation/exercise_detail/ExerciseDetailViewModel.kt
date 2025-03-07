@@ -184,16 +184,15 @@ class ExerciseDetailViewModel @Inject constructor(
     }
 
     override fun onExerciseUpdateReceived(update: ExerciseUpdate) {
-        sendExerciseStateToConnectedDevices(update)
-
         if (!update.exerciseStateInfo.state.isPaused) {
             setDuration(update)
             setHeartRate(update)
             sendToConnectedDevices(update)
+            sendSummaryToConnectedDevices(update)
         }
 
         if (update.exerciseStateInfo.state.isEnded) {
-            sendSummaryToConnectedDevices(update)
+            sendExerciseStateToConnectedDevices(update)
             setExerciseFinished(true)
         }
     }
